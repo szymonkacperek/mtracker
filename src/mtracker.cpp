@@ -5,7 +5,7 @@
 #include "Robot.hpp"
 #include <signal.h>
 
-Robot* robot = new Robot();
+Robot * robot;
 
 void shutdown(int sig)
 {
@@ -18,6 +18,8 @@ int main(int argc, char **argv)
 {
   ros::init(argc, argv, "mtracker");
   ros::NodeHandle n;
+
+  Robot* robot = new Robot();
 
   ros::Publisher  pos_pub = n.advertise<geometry_msgs::Pose2D>("/pos", 10);
   ros::Publisher  vel_pub = n.advertise<geometry_msgs::Twist>("/vel", 10);

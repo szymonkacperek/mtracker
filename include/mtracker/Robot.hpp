@@ -14,6 +14,8 @@
 
 class Robot : public MtrackerSerial
 {
+  tf::TransformBroadcaster pos_broadcast;
+  geometry_msgs::TransformStamped pos_tf;
 public:
   geometry_msgs::Pose2D pos_odom;   // Position from odometry
   geometry_msgs::Twist  vel_odom;   // Velocity from odometry
@@ -25,11 +27,9 @@ public:
 
   void publishPose(ros::Publisher pub)
   {
-    tf::TransformBroadcaster pos_broadcast;
-    geometry_msgs::TransformStamped pos_tf;
-
     pos_tf.header.stamp = ros::Time::now();
-    pos_tf.header.frame_id = "/base";
+    pos_tf.child_frame_id = "base";
+    pos_tf.header.frame_id = "odom";
     pos_tf.transform.translation.x = pos_odom.x;
     pos_tf.transform.translation.y = pos_odom.y;
     pos_tf.transform.translation.z = 0.0;
