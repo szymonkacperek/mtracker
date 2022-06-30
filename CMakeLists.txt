@@ -3,7 +3,7 @@ project(mtracker)
 
 set(CMAKE_CXX_FLAGS "-std=c++0x -fpermissive ${CMAKE_CXX_FLAGS} -Wfatal-errors\ ")
 
-find_package(catkin REQUIRED COMPONENTS roscpp geometry_msgs tf message_generation)
+find_package(catkin REQUIRED COMPONENTS roscpp geometry_msgs tf message_generation rospy)
 
 add_service_files(FILES Trigger.srv)
 
