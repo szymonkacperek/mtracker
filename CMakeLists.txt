@@ -5,11 +5,14 @@ set(CMAKE_CXX_FLAGS "-std=c++0x -fpermissive ${CMAKE_CXX_FLAGS} -Wfatal-errors\ 
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  rospy
   geometry_msgs
   tf
   message_generation
-  rospy
   urdf
+  std_msgs
+  sensor_msgs
+  gazebo_msgs
  )
 
 add_service_files(FILES Trigger.srv)
@@ -18,7 +21,7 @@ generate_messages(DEPENDENCIES)
 
 catkin_package(
   INCLUDE_DIRS include/mtracker
-  CATKIN_DEPENDS roscpp geometry_msgs tf message_runtime
+  CATKIN_DEPENDS roscpp geometry_msgs tf message_runtime rospy
   DEPENDS system_lib
 )
 
@@ -28,18 +31,21 @@ include_directories(
   include/mtracker
 )
 
-add_executable(mtracker
-  src/mtracker.cpp  src/rs232.c
-  include/mtracker/Robot.hpp
-  include/mtracker/Serial.hpp
-  include/mtracker/rs232.h
+add_executable(
+	mtracker
+	src/mtracker.cpp
+	src/rs232.c
+	include/mtracker/Robot.hpp
+	include/mtracker/Serial.hpp
+	include/mtracker/rs232.h
 )
 add_dependencies(mtracker mtracker_generate_messages_cpp)
 target_link_libraries(mtracker ${catkin_LIBRARIES})
 
 
-add_executable(controller
-  src/controller.cpp
+add_executable(
+	controller
+	src/controller.cpp
 )
 add_dependencies(controller mtracker_generate_messages_cpp)
 target_link_libraries(controller ${catkin_LIBRARIES})
@@ -48,4 +54,10 @@ add_executable(simulator
   src/simulator.cpp
 )
 add_dependencies(simulator mtracker_generate_messages_cpp)
+
+catkin_install_python(
+    PROGRAMS scripts/rsg_trajectory_tracking.py
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+    )
+
 target_link_libraries(simulator ${catkin_LIBRARIES})
