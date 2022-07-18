@@ -8,8 +8,6 @@
 
     <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model mtracker -x $(arg x) -y $(arg y) -z $(arg z)"/>
 
-<<<<<<< Updated upstream
-=======
     <rosparam file="$(find mtracker)/config/diff_drive_controller.yaml" command="load" />
     <rosparam file="$(find mtracker)/config/gazebo_ros_control_params.yaml" command="load" />
 
@@ -17,5 +15,4 @@
     <node name="mobile_base_controller_manager" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="mobile_base_controller" />
     <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering" output="screen"/>
 
->>>>>>> Stashed changes
 </launch>
