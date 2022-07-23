@@ -1,3 +1,4 @@
 gazebo_ros_control/pid_gains:
-    joint_left_wheel: {p: 2.5, i: 65.6, d: 0.0}
-    joint_right_wheel: {p: 2.5, i: 65.6, d: 0.0}
+    allow_none: true
+    # joint_left_wheel: {p: 2.5, i: 65.6, d: 0.0}
+    # joint_right_wheel: {p: 2.5, i: 65.6, d: 0.0}

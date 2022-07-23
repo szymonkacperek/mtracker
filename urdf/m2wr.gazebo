@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="mtracker" xmlns:xacro="https://www.ros.org/wiki/xacro" >
+
     <gazebo reference="link_chassis">
         <material>Gazebo/Orange</material>
     </gazebo>
@@ -17,8 +18,8 @@
             <hardwareInterface>VelocityJointInterface</hardwareInterface>  
         </joint>
         <actuator name="left_wheel_actuator">
-            <mechanicalReduction>7</mechanicalReduction>
-            <hardwareInterface>VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </actuator>
     </transmission>
 
@@ -28,8 +29,8 @@
             <hardwareInterface>VelocityJointInterface</hardwareInterface>  
         </joint>
         <actuator name="right_wheel_actuator">
-            <mechanicalReduction>7</mechanicalReduction>
-            <hardwareInterface>VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </actuator>
     </transmission>
 
