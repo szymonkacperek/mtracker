@@ -11,6 +11,7 @@
 
   <!-- Show in Rviz   -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ></node>
-  <node name="rviz" pkg="rviz" type="rviz" />
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find mtracker)/rviz/mtracker.rviz"/>
+
 
 </launch>

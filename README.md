@@ -1,26 +1,37 @@
-# M2WR in ROS
+# MTracker with ROS: Noetic
 ROS Noetic model, SLAM, navigation and control algorithms for mobile two-wheeled robot
 
-## Jira
-- https://szymonkacperek.atlassian.net/browse/M2WR
-
-## Gazebo model
-In simulation model two wheels and a RPLidar laser scanner can be found. It has two nodes:
-- `mtracker` that subscribes `cmd_vel` topic and publishes `pos` and `vel` for odometry data,
-- `mtracker_gmapping` that subscribes `tf` and `LaserScan` topics and publishes `map`.
-
 # Getting Started
-After building all the packages, run following command to launch the world. Alternatives are `world1.launch` and `world2.launch`. Loading may take some time. Note that for testing purposes `world3` is the best option. Here spawning robot must be done with adding different `x`, `y` and `z` coordinates.
+- To run Gazebo, RViz and `rqt_robot_steering` simultaneously:
 ```
-roslaunch mtracker world3.launch
+roslaunch mtracker world1.launch
 ```
-Then spawn the robot with optional coordinates:
+Alternatives are `world2.launch`, `world3.launch`.
+
+- Robot may be spawn with optional coordinates. Note that `z:=0.5` by default!
 ```
-roslaunch mtracker spawn.launch x:=2 y:=2 z:=0
+roslaunch mtracker spawn.launch x:=2 y:=2
 ```
-To do some manual-testing, run `teleop` with:
+- To do some manual-testing, run `teleop`. Important to note is that namespace is `mobile_base_controller`, that gives `/mobile_base_controller/cmd_vel` instead of `/cmd_vel`.
 ```
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 ```
+- Reference Signal Generator (RSG) can be launched by command:
+```
+rosrun mtracker rsg_trajectory_tracking.py
+```
+In python file's body change `u = rsg(trajectory, time_float)` to chosen trajectory, between 1 and 4. Note that `chmod +x` may be needed.
+
+# Info
+## Jira
+- https://szymonkacperek.atlassian.net/browse/M2WR
+
+## Plugins
+- `diff_drive_controller` http://wiki.ros.org/diff_drive_controller
+- `ros_control` http://wiki.ros.org/ros_control
+
+## Tutorials
+- https://www.theconstructsim.com/ros-projects-exploring-ros-using-2-wheeled-robot-part-1/
+
 
 

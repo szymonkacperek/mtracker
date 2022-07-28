@@ -12,7 +12,7 @@ def rsg(chosen_trajectory, t):
     """
     # Universal function (f_xd) for trajectory drawing (page 108)
     # Orientation taken:  (1) forwards, (-1) backwards
-    zeta_d = 1
+    zeta_d = -1
 
     # @param X_d, Y_d: middle of the trajectory shape described relatively to 
     #                  global coordinates system
@@ -27,7 +27,7 @@ def rsg(chosen_trajectory, t):
         # Circle shape
         A_dx = 1.0
         A_dy = 1.0
-        omega_dx = 0.2
+        omega_dx = -0.4
         omega_dy = omega_dx
         psi_dx = 0.0
         psi_dy = 0.0
@@ -57,7 +57,7 @@ def rsg(chosen_trajectory, t):
         psi_dx = 0
         psi_dy = 0
     else:
-        rospy.logwarn("wrong trajectory selected")
+        rospy.logwarn("error: trajectory outside 1-4 selected")
 
 
     # Trajectory shape and their derivatives. Calculate derivatives in a
@@ -92,7 +92,7 @@ def rsg(chosen_trajectory, t):
         f_xd_dotdot = -A_dx*omega_dx**2*math.cos(omega_dx*t + psi_dx)
         f_yd_dotdot = -A_dy*omega_dy**2*math.sin(omega_dy*t + psi_dy)
 
-    # Velocities with trajectory degeneration prevention (page 81)
+    # Velocities
     v_d = zeta_d*math.sqrt(f_xd_dot**2 + f_yd_dot**2)
     if v_d < 0.4:         
         v_d = 0.4
@@ -108,9 +108,10 @@ def start_simulation(t):
     """
     begin_time = rospy.Time.now()
     t_end = begin_time + rospy.Duration(t)
-    rospy.loginfo("simulation time in total: %i", (t_end-begin_time).to_sec())
+    rospy.loginfo("Simulation time in total: %i", (t_end-begin_time).to_sec())
     while not (rospy.Time.now() > t_end):
         t = rospy.get_time()-begin_time.to_sec()+1
+        # Choose trajectory and perform simulation.
         u = rsg(1, float(t))
         msg.angular.z = u[0]
         msg.linear.x = u[1]
@@ -125,7 +126,7 @@ def main():
     global msg
     rospy.init_node('time')
 
-    pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+    pub = rospy.Publisher('mobile_base_controller/cmd_vel', Twist, queue_size=1)
     rate = rospy.Rate(1)
     msg = Twist()
 

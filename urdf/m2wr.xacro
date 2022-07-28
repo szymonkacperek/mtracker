@@ -37,8 +37,8 @@
             <surface>
                 <friction>
                     <ode>
-                        <mu>0</mu>
-                        <mu2>0</mu2>
+                        <mu>0.1</mu>
+                        <mu2>0.1</mu2>
                         <slip1>1.0</slip1>
                         <slip2>1.0</slip2>
                     </ode>
@@ -83,8 +83,8 @@
 
     <!-- Create wheels -->  
     <xacro:link_wheel name="link_right_wheel"/>
-    <xacro:joint_wheel name="joint_right_wheel" child="link_right_wheel" origin_xyz="-0.05 0.20 0"/>
+    <xacro:joint_wheel name="joint_right_wheel" child="link_right_wheel" origin_xyz="-0.05 0.15 0"/>
 
     <xacro:link_wheel name="link_left_wheel"/>
-    <xacro:joint_wheel name="joint_left_wheel" child="link_left_wheel" origin_xyz="-0.05 -0.20 0"/>
+    <xacro:joint_wheel name="joint_left_wheel" child="link_left_wheel" origin_xyz="-0.05 -0.15 0"/>
 </robot>
