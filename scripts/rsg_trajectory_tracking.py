@@ -12,12 +12,12 @@ def rsg(chosen_trajectory, t):
     """
     # Universal function (f_xd) for trajectory drawing (page 108)
     # Orientation taken:  (1) forwards, (-1) backwards
-    zeta_d = -1
+    zeta_d = 1
 
     # @param X_d, Y_d: middle of the trajectory shape described relatively to 
     #                  global coordinates system
-    X_d = -1
-    Y_d = -1
+    X_d = 0
+    Y_d = 0
 
     if chosen_trajectory == 0:
         # Straight line
@@ -45,7 +45,7 @@ def rsg(chosen_trajectory, t):
         A_dy = 0.5
         omega_dx = 0.5
         omega_dy = 2*omega_dx
-        psi_dx = -math.pi/2
+        psi_dx = 0
         psi_dy = 0
     elif chosen_trajectory == 4:
         # Point
@@ -94,7 +94,7 @@ def rsg(chosen_trajectory, t):
 
     # Velocities
     v_d = zeta_d*math.sqrt(f_xd_dot**2 + f_yd_dot**2)
-    if v_d < 0.4:         
+    if v_d == 0:         
         v_d = 0.4
     omega_d = (f_yd_dotdot*f_xd_dot - f_yd_dot*f_xd_dotdot)/(f_xd_dot**2 + f_yd_dot**2)
     u = [omega_d, v_d]
@@ -112,13 +112,11 @@ def start_simulation(t):
     while not (rospy.Time.now() > t_end):
         t = rospy.get_time()-begin_time.to_sec()+1
         # Choose trajectory and perform simulation.
-        u = rsg(1, float(t))
+        u = rsg(3, float(t))
         msg.angular.z = u[0]
         msg.linear.x = u[1]
         pub.publish(msg)
         rospy.loginfo("time: %f/%i, [omega, v] = [%f, %f]", t, t_end.to_sec()-begin_time.to_sec(), u[0], u[1])
-
-        rospy.sleep(0.5)
 
 
 def main():

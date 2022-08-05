@@ -10,6 +10,9 @@
     <gazebo reference="link_right_wheel">
         <material>Gazebo/Blue</material>
     </gazebo>
+    <gazebo reference="front_indicator">
+        <material>Gazebo/Red</material>
+    </gazebo>
 
 
     <transmission name="left_wheel_transmission">
