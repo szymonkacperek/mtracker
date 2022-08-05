@@ -2,6 +2,7 @@
 import rospy
 import math
 from geometry_msgs.msg import Twist
+import sys
 
 def rsg(chosen_trajectory, t):
     """
@@ -57,7 +58,7 @@ def rsg(chosen_trajectory, t):
         psi_dx = 0
         psi_dy = 0
     else:
-        rospy.logwarn("error: trajectory outside 1-4 selected")
+        rospy.logwarn("trajectory outside 1-4 selected")
 
 
     # Trajectory shape and their derivatives. Calculate derivatives in a
@@ -101,28 +102,47 @@ def rsg(chosen_trajectory, t):
 
     return omega_d, v_d
 
-def start_simulation(t):
+def start_simulation(chosen_trajectory, duration):
     """
     Start simulation with specified time.
     @param t: time in secs
     """
     begin_time = rospy.Time.now()
-    t_end = begin_time + rospy.Duration(t)
+    t_end = begin_time + rospy.Duration(duration)
     rospy.loginfo("Simulation time in total: %i", (t_end-begin_time).to_sec())
     while not (rospy.Time.now() > t_end):
-        t = rospy.get_time()-begin_time.to_sec()+1
+        duration = rospy.get_time()-begin_time.to_sec()+1
         # Choose trajectory and perform simulation.
-        u = rsg(3, float(t))
+        u = rsg(chosen_trajectory, float(duration))
         msg.angular.z = u[0]
         msg.linear.x = u[1]
         pub.publish(msg)
-        rospy.loginfo("time: %f/%i, [omega, v] = [%f, %f]", t, t_end.to_sec()-begin_time.to_sec(), u[0], u[1])
+        rospy.loginfo("time: %f/%i, [omega, v] = [%f, %f]", duration, t_end.to_sec()-begin_time.to_sec(), u[0], u[1])
+        rospy.sleep(0.2)
 
 
 def main():
     global pub
     global msg
     rospy.init_node('time')
+
+    # Pass user's arguments
+    trajectory = int(sys.argv[1])
+    duration = int(sys.argv[2])
+    if (trajectory == 0):
+        str_tajectory = "line"
+    elif (trajectory == 1):
+        str_tajectory = "circle"
+    elif (trajectory == 2):
+        str_tajectory = "ellipse"
+    elif (trajectory == 3):
+        str_tajectory = "eight"
+    elif (trajectory == 4):
+        str_tajectory = "point"
+    else:
+        rospy.logerr("wrong trajectory selected")
+    
+
 
     pub = rospy.Publisher('mobile_base_controller/cmd_vel', Twist, queue_size=1)
     rate = rospy.Rate(1)
@@ -132,7 +152,8 @@ def main():
     rospy.sleep(1)
     
     while not rospy.is_shutdown():
-        start_simulation(30)
+        rospy.loginfo("Chosen trajectory/time: %s/%i", str_tajectory, duration)
+        start_simulation(trajectory, duration)
             
         rate.sleep()
         rospy.loginfo("simulation done")

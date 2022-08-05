@@ -1,5 +1,5 @@
 # MTracker with ROS: Noetic
-ROS Noetic model, SLAM, navigation and control algorithms for mobile two-wheeled robot
+ROS model of MTracker with RSG for TT
 
 # Getting Started
 - To run Gazebo, RViz and `rqt_robot_steering` simultaneously:
@@ -7,6 +7,12 @@ ROS Noetic model, SLAM, navigation and control algorithms for mobile two-wheeled
 roslaunch mtracker world1.launch
 ```
 Alternatives are `world2.launch`, `world3.launch`.
+
+- Reference Signal Generator (RSG) can be launched by command:
+```
+rosrun mtracker rsg_trajectory_tracking.py arg1 arg2
+```
+where `arg1` stands for chosen trajectory between (0-4) and `arg2` for total time of simulation. Note that `chmod +x` for `.py` file may be needed.
 
 - Robot may be spawn with optional coordinates. Note that `z:=0.5` by default!
 ```
@@ -16,11 +22,6 @@ roslaunch mtracker spawn.launch x:=2 y:=2
 ```
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 ```
-- Reference Signal Generator (RSG) can be launched by command:
-```
-rosrun mtracker rsg_trajectory_tracking.py
-```
-In python file's body change `u = rsg(trajectory, time_float)` to chosen trajectory, between 1 and 4. Note that `chmod +x` may be needed.
 
 # Info
 ## Jira
