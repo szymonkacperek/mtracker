@@ -2,19 +2,15 @@
 import rospy
 import math
 from geometry_msgs.msg import Twist
+from nav_msgs.msg import Odometry
 import sys
 
+# global variables
+x, y, theta = 0.0, 0.0, 0.0
+
 def rsg(chosen_trajectory, t):
-    """
-    Generate trajectory.
-    @param chosen_trajectory: 1-4, straight line, circle, ellipse and eight.
-    @param t: time is an input to this function
-    @return: angular and linear velocity [w, v]
-    """
-    # Universal function (f_xd) for trajectory drawing (page 108)
     # Orientation taken:  (1) forwards, (-1) backwards
     zeta_d = 1
-
     # @param X_d, Y_d: middle of the trajectory shape described relatively to 
     #                  global coordinates system
     X_d = 0
@@ -98,68 +94,86 @@ def rsg(chosen_trajectory, t):
     if v_d == 0:         
         v_d = 0.4
     omega_d = (f_yd_dotdot*f_xd_dot - f_yd_dot*f_xd_dotdot)/(f_xd_dot**2 + f_yd_dot**2)
-    u = [omega_d, v_d]
 
-    return omega_d, v_d
+    x_d = f_xd
+    y_d = f_yd
+
+    return omega_d, v_d, x_d, y_d
 
 def start_simulation(chosen_trajectory, duration):
-    """
-    Start simulation with specified time.
-    @param t: time in secs
-    """
     begin_time = rospy.Time.now()
     t_end = begin_time + rospy.Duration(duration)
-    rospy.loginfo("Simulation time in total: %i", (t_end-begin_time).to_sec())
+
     while not (rospy.Time.now() > t_end):
         duration = rospy.get_time()-begin_time.to_sec()+1
-        # Choose trajectory and perform simulation.
-        u = rsg(chosen_trajectory, float(duration))
-        msg.angular.z = u[0]
-        msg.linear.x = u[1]
-        pub.publish(msg)
-        rospy.loginfo("time: %f/%i, [omega, v] = [%f, %f]", duration, t_end.to_sec()-begin_time.to_sec(), u[0], u[1])
+        rsg_output = rsg(chosen_trajectory, float(duration))
+        publish_vel(rsg_output[0], rsg_output[1])
+        publish_error(rsg_output[2], rsg_output[3])
         rospy.sleep(0.2)
 
+def get_odometry_data(topic):
+    global x, y, theta
+    x = topic.pose.pose.position.x
+    y = topic.pose.pose.position.y
+    theta = topic.pose.pose.orientation.z
 
-def main():
-    global pub
-    global msg
-    rospy.init_node('time')
-
-    # Pass user's arguments
+def get_user_input(trajectory, duration):
     trajectory = int(sys.argv[1])
     duration = int(sys.argv[2])
     if (trajectory == 0):
-        str_tajectory = "line"
+        str_trajectory = "line"
     elif (trajectory == 1):
-        str_tajectory = "circle"
+        str_trajectory = "circle"
     elif (trajectory == 2):
-        str_tajectory = "ellipse"
+        str_trajectory = "ellipse"
     elif (trajectory == 3):
-        str_tajectory = "eight"
+        str_trajectory = "eight"
     elif (trajectory == 4):
-        str_tajectory = "point"
+        str_trajectory = "point"
     else:
         rospy.logerr("wrong trajectory selected")
-    
+    rospy.loginfo("chosen trajectory %s, time %i", str_trajectory, duration)
+    return trajectory, duration
+
+def publish_error(x_d, y_d):
+    global x, y
+    msg_error = Twist()
+    pub_error = rospy.Publisher('/error', Twist, queue_size=1)
+    msg_error.linear.x = x_d - x
+    msg_error.linear.y = y_d - y
+    pub_error.publish(msg_error)
+
+def publish_vel(omega_d, v_d):
+    msg_vel = Twist()
+    pub_vel = rospy.Publisher('/mobile_base_controller/cmd_vel', Twist, queue_size=1)
+    msg_vel.angular.z = omega_d
+    msg_vel.linear.x = v_d
+    pub_vel.publish(msg_vel)
+
+def stop_robot():
+    msg_vel = Twist()
+    pub_vel = rospy.Publisher('/mobile_base_controller/cmd_vel', Twist, queue_size=1)
+    msg_vel.angular.z = 0
+    msg_vel.linear.x = 0
+    pub_vel.publish(msg_vel)
 
 
-    pub = rospy.Publisher('mobile_base_controller/cmd_vel', Twist, queue_size=1)
+
+def main():
+    # Initialize node, sub and pub
+    rospy.init_node('rsg_tt')
+    rospy.Subscriber('/mobile_base_controller/odom', Odometry, get_odometry_data)
     rate = rospy.Rate(1)
-    msg = Twist()
 
-    # After this sleep, time counter starts to work as intended.
-    rospy.sleep(1)
-    
+    user_input = get_user_input(sys.argv[1], sys.argv[2])
+
     while not rospy.is_shutdown():
-        rospy.loginfo("Chosen trajectory/time: %s/%i", str_tajectory, duration)
-        start_simulation(trajectory, duration)
-            
-        rate.sleep()
+        # After setting sleep for 1 second, time counter starts to work as intended.
+        rospy.sleep(1)
+        start_simulation(user_input[0], user_input[1])
         rospy.loginfo("simulation done")
-        msg.angular.z = 0
-        msg.linear.x = 0
-        pub.publish(msg)
+        stop_robot()
+        rate.sleep()
         break
 
 if __name__ == '__main__':
