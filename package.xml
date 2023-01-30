@@ -4,10 +4,9 @@
   <version>0.0.0</version>
   <description>The MTracker driver package</description>
 
-  <maintainer email="szymonkacperek@aol.com">SK</maintainer>
+  <maintainer email="szymon.kacperek96@gmail.com">Szymon Kacperek</maintainer>
   <license>BSD</license>
 
-  <!-- <author email="jane.doe@example.com">Jane Doe</author> -->
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>roscpp</build_depend>

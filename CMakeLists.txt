@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   sensor_msgs
   gazebo_msgs
- )
+)
 
 add_service_files(FILES Trigger.srv)
 
@@ -26,26 +26,25 @@ catkin_package(
 )
 
 include_directories(
-  #${Boost_INCLUDE_DIRS}
+  # ${Boost_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
   include/mtracker
 )
 
 add_executable(
-	mtracker
-	src/mtracker.cpp
-	src/rs232.c
-	include/mtracker/Robot.hpp
-	include/mtracker/Serial.hpp
-	include/mtracker/rs232.h
+  mtracker
+  src/mtracker.cpp
+  src/rs232.c
+  include/mtracker/Robot.hpp
+  include/mtracker/Serial.hpp
+  include/mtracker/rs232.h
 )
 add_dependencies(mtracker mtracker_generate_messages_cpp)
 target_link_libraries(mtracker ${catkin_LIBRARIES})
 
-
 add_executable(
-	controller
-	src/controller.cpp
+  controller
+  src/controller.cpp
 )
 add_dependencies(controller mtracker_generate_messages_cpp)
 target_link_libraries(controller ${catkin_LIBRARIES})
@@ -56,8 +55,8 @@ add_executable(simulator
 add_dependencies(simulator mtracker_generate_messages_cpp)
 
 catkin_install_python(
-    PROGRAMS scripts/rsg_trajectory_tracking.py
-    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-    )
+  PROGRAMS scripts/rsg_trajectory_tracking.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 target_link_libraries(simulator ${catkin_LIBRARIES})

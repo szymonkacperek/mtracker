@@ -1,9 +1,25 @@
 #! /usr/bin/env python3
 import rospy
 import math
+import sys
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
-import sys
+
+"""
+    \file rsg_trajectory_tracking.py
+    \brief Main file for controlling MTracker simulation. Generating messages
+        `cmd_vel` according to the chosen trajectory.
+    \params
+        @trajectory: 0 straight line
+                     1 circle
+                     2 ellipse
+                     3 eight
+                     4 point
+        @time: simulation duration in seconds
+
+    \example 
+        rosrun mtracker rsg_trajectory_tracking.py 3 30
+"""
 
 # global variables
 x, y, theta = 0.0, 0.0, 0.0
@@ -156,6 +172,7 @@ def stop_robot():
     msg_vel.angular.z = 0
     msg_vel.linear.x = 0
     pub_vel.publish(msg_vel)
+
 
 
 
