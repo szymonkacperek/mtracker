@@ -32,15 +32,15 @@ include_directories(
 )
 
 add_executable(
-  mtracker
-  src/mtracker.cpp
+  real_robot
+  src/real_robot.cpp
   src/rs232.c
   include/mtracker/Robot.hpp
   include/mtracker/Serial.hpp
   include/mtracker/rs232.h
 )
-add_dependencies(mtracker mtracker_generate_messages_cpp)
-target_link_libraries(mtracker ${catkin_LIBRARIES})
+add_dependencies(real_robot mtracker_generate_messages_cpp)
+target_link_libraries(real_robot ${catkin_LIBRARIES})
 
 add_executable(
   controller
@@ -50,10 +50,12 @@ add_dependencies(controller mtracker_generate_messages_cpp)
 target_link_libraries(controller ${catkin_LIBRARIES})
 
 add_executable(
-  mtracker_sim
-  src/mtracker_sim.cpp
+  simulation
+  src/simulation.cpp
+  src/mtracker.cpp
 )
-add_dependencies(mtracker_sim mtracker_generate_messages_cpp)
+add_dependencies(simulation mtracker_generate_messages_cpp)
+target_link_libraries(simulation ${catkin_LIBRARIES})
 
 add_executable(
   rsg
@@ -67,4 +69,3 @@ catkin_install_python(
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-target_link_libraries(mtracker_sim ${catkin_LIBRARIES})
