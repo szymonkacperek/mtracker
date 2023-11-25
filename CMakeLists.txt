@@ -49,14 +49,22 @@ add_executable(
 add_dependencies(controller mtracker_generate_messages_cpp)
 target_link_libraries(controller ${catkin_LIBRARIES})
 
-add_executable(simulator
-  src/simulator.cpp
+add_executable(
+  mtracker_sim
+  src/mtracker_sim.cpp
 )
-add_dependencies(simulator mtracker_generate_messages_cpp)
+add_dependencies(mtracker_sim mtracker_generate_messages_cpp)
+
+add_executable(
+  rsg
+  src/rsg.cpp
+)
+add_dependencies(rsg mtracker_generate_messages_cpp)
+target_link_libraries(rsg ${catkin_LIBRARIES})
 
 catkin_install_python(
   PROGRAMS scripts/rsg_trajectory_tracking.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-target_link_libraries(simulator ${catkin_LIBRARIES})
+target_link_libraries(mtracker_sim ${catkin_LIBRARIES})
