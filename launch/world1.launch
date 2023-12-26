@@ -17,9 +17,7 @@
     <!-- <arg name="headless" value="$(arg headless)"/> -->
     <!-- <env name="GAZEBO_MODEL_PATH" value="$(find simulation_gazebo)/models:$(optenv GAZEBO_MODEL_PATH)"/> -->
   </include>
-  <include file="$(find mtracker)/launch/spawn.launch">
-  </include>
-  <include file="$(find mtracker)/launch/rviz.launch">
-  </include>
+  <include file="$(find mtracker)/launch/spawn.launch"/>
+  <include file="$(find mtracker)/launch/rviz.launch"/>
 <!--  Include launch.xml if needed -->
 </launch>

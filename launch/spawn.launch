@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-    <param name="robot_description" command="$(find xacro)/xacro '$(find mtracker)/urdf/m2wr.xacro'"/>    
- 
+    <!-- Load Gazebo with given world-->
+    <arg name="robot" default="machines"/>
+    <arg name="debug" default="false"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="pause" default="false"/>
+    <arg name="world" default="world01"/>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find mtracker)/worlds/$(arg world).world"/>
+        <arg name="debug" value="$(arg debug)"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="paused" value="$(arg pause)"/>
+        <arg name="use_sim_time" value="true"/>
+        <!-- Don't know if those are needed. -->
+        <!-- <arg name="headless" value="$(arg headless)"/> -->
+        <!-- <env name="GAZEBO_MODEL_PATH" value="$(find simulation_gazebo)/models:$(optenv
+        GAZEBO_MODEL_PATH)"/> -->
+    </include>
+
+
+    <!-- Spawn the robot -->
+    <param name="robot_description"
+        command="$(find xacro)/xacro '$(find mtracker)/urdf/m2wr.xacro'"/>
+
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
     <arg name="z" default="0"/>
 
     <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
-            args="-urdf -param robot_description -model mtracker -x $(arg x) -y $(arg y) -z $(arg z)"/>
+        args="-urdf -param robot_description -model mtracker -x $(arg x) -y $(arg y) -z $(arg z)" />
 
-    <rosparam file="$(find mtracker)/config/diff_drive_controller.yaml" command="load" />
-    <rosparam file="$(find mtracker)/config/gazebo_ros_control_params.yaml" command="load" />
+    <rosparam file="$(find mtracker)/config/diff_drive_controller.yaml" command="load"/>
+    <rosparam file="$(find mtracker)/config/gazebo_ros_control_params.yaml" command="load"/>
 
-    <node name="mobile_base_controller_manager" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="mobile_base_controller" />
-    <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering" output="screen"/>
+    <node name="mobile_base_controller_manager" pkg="controller_manager" type="spawner"
+        respawn="false" output="screen" args="mobile_base_controller"/>
+    <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering"
+        output="screen"/>
 
+
+    <!-- Launch RViz -->
+    <include file="$(find mtracker)/launch/rviz.launch"/>
 </launch>
