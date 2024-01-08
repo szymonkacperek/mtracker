@@ -42,4 +42,18 @@
 
     <!-- Launch RViz -->
     <include file="$(find mtracker)/launch/rviz.launch"/>
+
+    <!-- Start the laser_scan_matcher -->
+
+    <node pkg="laser_scan_matcher"
+          type="laser_scan_matcher_node"
+          name="laser_scan_matcher_node"
+          output="screen">
+
+      <param name="base_frame" value="link_chassis"/>
+      <param name="fixed_frame" value="odom"/>
+      <param name="publish_pose_stamped" value="true"/>
+
+    </node>
+
 </launch>
