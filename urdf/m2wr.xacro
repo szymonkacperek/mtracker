@@ -1,53 +1,53 @@
 <?xml version="1.0"?>
 
 <robot name="mtracker" xmlns:xacro="https://www.ros.org/wiki/xacro">
-    <xacro:include filename="$(find mtracker)/urdf/materials.xacro"/>
-    <xacro:include filename="$(find mtracker)/urdf/m2wr.gazebo"/>   
-    <xacro:include filename="$(find mtracker)/urdf/macro.xacro"/>
+    <xacro:include filename="$(find mtracker)/urdf/materials.xacro" />
+    <xacro:include filename="$(find mtracker)/urdf/m2wr.gazebo" />
+    <xacro:include filename="$(find mtracker)/urdf/macro.xacro" />
 
     <link name="link_chassis">
         <!-- pose and inertial -->
         <pose>0 0 0.01 0 0 0</pose>
         <inertial>
-            <mass value="1.8"/>
-            <origin rpy="0 0 0" xyz="0 0 0.01"/>
-            <inertia ixx="0.0395416666667" ixy="0" ixz="0" iyy="0.106208333333" iyz="0" izz="0.106208333333"/>
+            <mass value="1.8" />
+            <origin xyz="0 0 0.01" />
+            <inertia ixx="0.0395416666667" ixy="0" ixz="0" iyy="0.106208333333" iyz="0" izz="0.106208333333" />
         </inertial>
 
         <!-- body -->
         <collision name="collision_chassis">
             <geometry>
-                <cylinder length="0.045" radius="0.084"/>
+                <cylinder length="0.045" radius="0.084" />
             </geometry>
         </collision>
         <visual>
-            <origin rpy="0 0 0" xyz="0 0 0.010"/>
+            <origin xyz="0 0 0.010" />
             <geometry>
-                <cylinder length="0.045" radius="0.084"/>
+                <cylinder length="0.045" radius="0.084" />
             </geometry>
-            <material name="blue"/>
+            <material name="blue" />
         </visual>
         <!-- controller -->
         <visual>
-            <origin rpy="0 0 0" xyz="0 0 0.046"/>
+            <origin xyz="0 0 0.045" />
             <geometry>
-                <cylinder length="0.025" radius="0.080"/>
+                <cylinder length="0.025" radius="0.080" />
             </geometry>
-            <material name="blue"/>
+            <material name="blue" />
         </visual>
         <!-- intel nuc -->
         <visual>
-            <origin rpy="0 0 0" xyz="0 0 0.071"/>
+            <origin xyz="0 0 0.087" />
             <geometry>
-                <box size="0.1 0.1 0.06"/>
+                <box size="0.1 0.1 0.06" />
             </geometry>
-            <material name="blue"/>
+            <material name="blue" />
         </visual>
         <!-- caster front -->
         <collision name="caster_front_collision">
-            <origin rpy="0 0 0" xyz="0.08 0 -0.015"/>
+            <origin rpy="0 0 0" xyz="0.08 0 -0.015" />
             <geometry>
-                <cylinder length="0.01" radius="0.003"/>
+                <cylinder length="0.01" radius="0.003" />
             </geometry>
             <surface>
                 <friction>
@@ -61,16 +61,16 @@
             </surface>
         </collision>
         <visual name="caster_front_visual">
-            <origin rpy="0 0 0" xyz="0.08 0 -0.015"/>
+            <origin rpy="0 0 0" xyz="0.08 0 -0.015" />
             <geometry>
-                <cylinder length="0.01" radius="0.003"/>
+                <cylinder length="0.01" radius="0.003" />
             </geometry>
         </visual>
         <!-- caster back -->
         <collision name="caster_back_collision">
-            <origin rpy="0 0 0" xyz="-0.08 0 -0.015"/>
+            <origin rpy="0 0 0" xyz="-0.08 0 -0.015" />
             <geometry>
-                <cylinder length="0.01" radius="0.003"/>
+                <cylinder length="0.01" radius="0.003" />
             </geometry>
             <surface>
                 <friction>
@@ -84,45 +84,46 @@
             </surface>
         </collision>
         <visual name="caster_back_visual">
-            <origin rpy="0 0 0" xyz="-0.08 0 -0.015"/>
+            <origin rpy="0 0 0" xyz="-0.08 0 -0.015" />
             <geometry>
-                <cylinder length="0.01" radius="0.003"/>
+                <cylinder length="0.01" radius="0.003" />
             </geometry>
         </visual>
     </link>
 
     <!-- simple line to indicate front -->
     <link name="front_indicator">
-        <parent link="link_chassis"/>
+        <parent link="link_chassis" />
         <visual>
-            <origin rpy="0 0 0" xyz="0.05 0 0"/>
+            <origin rpy="0 0 0" xyz="0.05 0 0" />
             <geometry>
-                <box size="0.045 0.005 0.001"/>
+                <box size="0.045 0.005 0.001" />
             </geometry>
         </visual>
     </link>
 
     <joint name="front_indicatior_joint" type="fixed">
-        <parent link="link_chassis"/>
-        <child link="front_indicator"/>
-        <origin rpy="0 0 0" xyz="0 0 0.071"/>
+        <parent link="link_chassis" />
+        <child link="front_indicator" />
+        <origin rpy="0 0 0" xyz="0 0 0.071" />
     </joint>
 
-    <!-- <link name="sensor_laser">
+    <!-- Laser  -->
+    <link name="sensor_laser">
         <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 0"/>
             <mass value="0.1" />
             <xacro:cylinder_inertia mass="0.1" r="0.05" l="0.1" />
         </inertial>
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 0" />
             <geometry>
-                <cylinder radius="0.05" length="0.1"/>
+                <cylinder radius="0.025" length="0.015"/>
             </geometry>
             <material name="white" />
         </visual>
         <collision>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 0"/>
             <geometry>
                 <cylinder radius="0.05" length="0.1"/>
             </geometry>
@@ -130,16 +131,15 @@
     </link>
 
     <joint name="joint_sensor_laser" type="fixed">
-        <origin xyz="0.15 0 0.05" rpy="0 0 0"/>
+        <origin xyz="0 0 0.1245" />
         <parent link="link_chassis"/>
         <child link="sensor_laser"/>
-    </joint> -->
+    </joint>
 
+    <!-- Create wheels -->
+    <xacro:link_wheel name="link_right_wheel" />
+    <xacro:joint_wheel name="joint_right_wheel" child="link_right_wheel" origin_xyz="0 0.075 0" />
 
-    <!-- Create wheels -->  
-    <xacro:link_wheel name="link_right_wheel"/>
-    <xacro:joint_wheel name="joint_right_wheel" child="link_right_wheel" origin_xyz="0 0.075 0"/>
-
-    <xacro:link_wheel name="link_left_wheel"/>
-    <xacro:joint_wheel name="joint_left_wheel" child="link_left_wheel" origin_xyz="0 -0.075 0"/>
+    <xacro:link_wheel name="link_left_wheel" />
+    <xacro:joint_wheel name="joint_left_wheel" child="link_left_wheel" origin_xyz="0 -0.075 0" />
 </robot>

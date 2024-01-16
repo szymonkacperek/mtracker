@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF8"?>
+
+<launch>
+    <node name="mtracker_sim" pkg="mtracker" type="simulation"/>
+    <node name="rsg" pkg="mtracker" type="rsg"/>
+
+</launch>
