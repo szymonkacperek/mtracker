@@ -28,10 +28,6 @@ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 rostopic pub -1 /cmd_vel geometry_msgs/Twist -- '[0.1, 0, 0]' '[0, 0, 0.1]' 
 ```
 
-# Info
-## Jira
-- https://szymonkacperek.atlassian.net/browse/M2WR
-
 ## Plugins
 - `diff_drive_controller` http://wiki.ros.org/diff_drive_controller
 - `ros_control` http://wiki.ros.org/ros_control
@@ -39,7 +35,7 @@ rostopic pub -1 /cmd_vel geometry_msgs/Twist -- '[0.1, 0, 0]' '[0, 0, 0.1]'
 ## Tutorials
 - https://www.theconstructsim.com/ros-projects-exploring-ros-using-2-wheeled-robot-part-1/
 
-## Contents of old README
+## Other
 Main node:
 ```
 mtracker mtracker 
@@ -52,6 +48,7 @@ sudo gedit /etc/udev/rules.d/50-ttyusb.rules
 KERNEL=="ttyUSB[0-9]*",NAME="tts/USB%n",SYMLINK+="%k",GROUP="uucp",MODE="0666"
 ``` 
 
+<!--
 ### TODO
 Czego nie rozumiem w ramce robota:
 - Dlaczego prędkości kół nie są przesyłane jako float, skoro x, y i theta dla odometrii są?
@@ -63,6 +60,6 @@ Propozycje:
 - Niech ramka zwrotna będzie miała identyczną formę jak ramka przesyłana. Znacznie uprości to kod.
 - Niech wszystkie ramki wysyłane mają taką samą strukturę i długość. Przesłanie kilku zer nie zaszkodzi, a ZNACZĄCO uprości kod.
 - Niech crc ma zwykły endian - jak wszystko inne. To też uprości kod.
-- Koła kręcą się w dwóch kierunkach przy takich samym prędkościach. To powinno być załatwiane na low-level controller.
+- Koła kręcą się w dwóch kierunkach przy takich samym prędkościach. To powinno być załatwiane na low-level controller. -->
 
 
