@@ -14,15 +14,15 @@ mobile_base_controller:
 
     # Velocity and acceleration limits
     # Whenever a min_* is unspecified, default to -max_*
-    # linear:
-    #     x:
-    #         has_velocity_limits    : true
-    #         max_velocity           : 0.7  # m/s
-    #         has_acceleration_limits: true
-    #         max_acceleration       : 0.7  # m/s^2
-    # angular:
-    #     z:
-    #         has_velocity_limits    : true
-    #         max_velocity           : 2.7  # rad/s
-    #         has_acceleration_limits: true
-    #         max_acceleration       : 4.0  # rad/s^2
+    linear:
+        x:
+            has_velocity_limits    : true
+            max_velocity           : 0.7  # m/s
+            has_acceleration_limits: true
+            max_acceleration       : 0.7  # m/s^2
+    angular:
+        z:
+            has_velocity_limits    : true
+            max_velocity           : 0.5  # rad/s
+            has_acceleration_limits: true
+            max_acceleration       : 1.0  # rad/s^2
