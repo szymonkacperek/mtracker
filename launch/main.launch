@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Main file used to load both RViz and Gazebo simulation. -->
+
+<launch>
+    <!-- Launch main gazebo file -->
+    <arg name="gui" default="true"/>
+    <include file="$(find mtracker)/launch/gazebo.launch">
+        <arg name="gui" value="$(arg gui)" />
+    </include>
+
+    <!-- Launch main RViz file -->
+    <include file="$(find mtracker)/launch/rviz.launch"/>
+
+</launch>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This file contains a standalone Gazebo configuration. -->
+
+<launch>
+    <!-- Load Gazebo with given world-->
+    <arg name="gui" default="true"/>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="worlds/willowgarage.world" />
+        <arg name="gui" value="$(arg gui)" />
+    </include>
+
+    <!-- Spawn the robot -->
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0"/>
+    <node name="mtracker_spawn" pkg="gazebo_ros" type="spawn_model" 
+        args="-urdf -param robot_description -model mtracker -x $(arg x) -y $(arg y) -z $(arg z)" />
+
+    <!-- Load plugins related to wheel controllers -->
+    <rosparam file="$(find mtracker)/config/diff_drive_controller.yaml" command="load"/>
+    <rosparam file="$(find mtracker)/config/gazebo_ros_control_params.yaml" command="load"/>
+    <node name="mobile_base_controller_manager" pkg="controller_manager" type="spawner"
+        respawn="false" output="screen" args="mobile_base_controller"/>
+
+</launch>
