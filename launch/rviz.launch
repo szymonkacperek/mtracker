@@ -1,17 +1,19 @@
 <?xml version="1.0"?>
+
+<!-- This file contains a standalone RViz configuration. -->
+
 <launch>
-<param name="robot_description" command="$(find xacro)/xacro '$(find mtracker)/urdf/m2wr.xacro'"/>    
-    <!-- send fake joint values -->
-  <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="use_gui" value="False"/>
-  </node> -->
+    <!-- Start RViz -->
+    <node pkg="rviz" type="rviz" name="rviz"
+        args="-d $(find mtracker)/rviz/mtracker.rviz" />
 
-  <!-- Combine joint values -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    <!-- Launch nodes with given `robot_description` param -->
+    <param name="robot_description"
+        command="$(find xacro)/xacro '$(find mtracker)/urdf/m2wr.xacro'" />
 
-  <!-- Show in Rviz   -->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ></node>
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find mtracker)/rviz/mtracker.rviz"/>
-
+    <node name="joint_state_publisher" pkg="joint_state_publisher"
+        type="joint_state_publisher" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher"
+        type="robot_state_publisher" />
 
 </launch>
