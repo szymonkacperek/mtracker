@@ -5,7 +5,7 @@
     <xacro:include filename="$(find mtracker)/urdf/m2wr.gazebo" />
     <xacro:include filename="$(find mtracker)/urdf/macro.xacro" />
 
-    <link name="link_chassis">
+    <link name="base_link">
         <!-- pose and inertial -->
         <pose>0 0 0.01 0 0 0</pose>
         <inertial>
@@ -93,7 +93,7 @@
 
     <!-- simple line to indicate front -->
     <link name="front_indicator">
-        <parent link="link_chassis" />
+        <parent link="base_link" />
         <visual>
             <origin rpy="0 0 0" xyz="0.05 0 0" />
             <geometry>
@@ -103,7 +103,7 @@
     </link>
 
     <joint name="front_indicatior_joint" type="fixed">
-        <parent link="link_chassis" />
+        <parent link="base_link" />
         <child link="front_indicator" />
         <origin rpy="0 0 0" xyz="0 0 0.071" />
     </joint>
@@ -132,7 +132,7 @@
 
     <joint name="joint_sensor_laser" type="fixed">
         <origin xyz="0 0 0.1245" />
-        <parent link="link_chassis"/>
+        <parent link="base_link"/>
         <child link="sensor_laser"/>
     </joint>
 
