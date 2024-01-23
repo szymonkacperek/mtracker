@@ -9,7 +9,7 @@
 
     <!-- Launch nodes with given `robot_description` param -->
     <param name="robot_description"
-        command="$(find xacro)/xacro '$(find mtracker)/urdf/m2wr.xacro'" />
+        command="$(find xacro)/xacro '$(find mtracker)/urdf/mtracker.xacro'" />
 
     <node name="joint_state_publisher" pkg="joint_state_publisher"
         type="joint_state_publisher" />

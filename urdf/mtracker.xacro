@@ -2,7 +2,7 @@
 
 <robot name="mtracker" xmlns:xacro="https://www.ros.org/wiki/xacro">
     <xacro:include filename="$(find mtracker)/urdf/materials.xacro" />
-    <xacro:include filename="$(find mtracker)/urdf/m2wr.gazebo" />
+    <xacro:include filename="$(find mtracker)/urdf/mtracker.gazebo" />
     <xacro:include filename="$(find mtracker)/urdf/macro.xacro" />
 
     <link name="base_link">
