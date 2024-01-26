@@ -31,7 +31,7 @@
         <visual>
             <origin xyz="0 0 0.045" />
             <geometry>
-                <cylinder length="0.025" radius="0.080" />
+                <cylinder length="0.022" radius="0.080" />
             </geometry>
             <material name="blue" />
         </visual>
@@ -47,7 +47,7 @@
         <collision name="caster_front_collision">
             <origin rpy="0 0 0" xyz="0.08 0 -0.015" />
             <geometry>
-                <cylinder length="0.01" radius="0.003" />
+                <cylinder length="0.0215" radius="0.003" />
             </geometry>
             <surface>
                 <friction>
@@ -63,14 +63,14 @@
         <visual name="caster_front_visual">
             <origin rpy="0 0 0" xyz="0.08 0 -0.015" />
             <geometry>
-                <cylinder length="0.01" radius="0.003" />
+                <cylinder length="0.0215" radius="0.003" />
             </geometry>
         </visual>
         <!-- caster back -->
         <collision name="caster_back_collision">
             <origin rpy="0 0 0" xyz="-0.08 0 -0.015" />
             <geometry>
-                <cylinder length="0.01" radius="0.003" />
+                <cylinder length="0.0215" radius="0.003" />
             </geometry>
             <surface>
                 <friction>
@@ -86,7 +86,7 @@
         <visual name="caster_back_visual">
             <origin rpy="0 0 0" xyz="-0.08 0 -0.015" />
             <geometry>
-                <cylinder length="0.01" radius="0.003" />
+                <cylinder length="0.0215" radius="0.003" />
             </geometry>
         </visual>
     </link>
