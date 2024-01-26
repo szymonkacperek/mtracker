@@ -4,9 +4,10 @@
 
 <launch>
     <!-- Load Gazebo with given world-->
-    <arg name="gui" default="true"/>
+    <arg name="gui" default="true" />
+    <arg name="world" default="worlds/willowgarage.world" />
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="worlds/willowgarage.world" />
+        <arg name="world_name" value="$(find mtracker)/worlds/$(arg world)" />
         <arg name="gui" value="$(arg gui)" />
     </include>
 
