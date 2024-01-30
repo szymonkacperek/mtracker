@@ -65,7 +65,12 @@ add_executable(
 add_dependencies(rsg mtracker_generate_messages_cpp)
 target_link_libraries(rsg ${catkin_LIBRARIES})
 
+add_executable(
+    gmapping_pose
+    src/gmapping_pose.cpp
 )
+add_dependencies(gmapping_pose mtracker_generate_messages_cpp)
+target_link_libraries(gmapping_pose ${catkin_LIBRARIES})
 
 catkin_install_python(
     PROGRAMS scripts/rsg_trajectory_tracking.py
